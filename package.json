@@ -7,6 +7,7 @@
     "agent:dev": "pnpm --filter @openhacker/agent dev",
     "agent:build": "pnpm --filter @openhacker/agent build",
     "agent:info": "pnpm --filter @openhacker/agent eve:info",
-    "openhacker": "node packages/openhacker/bin/openhacker"
+    "openhacker": "node packages/openhacker/bin/openhacker",
+    "release": "pnpm --filter openhacker release"
   }
 }
