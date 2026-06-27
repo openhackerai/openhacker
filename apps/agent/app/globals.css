@@ -95,12 +95,34 @@ h1 span {
   margin-bottom: 0;
 }
 .reply .reasoning {
-  white-space: pre-wrap;
-  color: var(--muted);
-  font-size: 13px;
   margin: 0 0 12px;
   padding-left: 12px;
   border-left: 2px solid var(--border);
+}
+.reply .reasoning > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  list-style: none;
+  user-select: none;
+}
+.reply .reasoning > summary::-webkit-details-marker {
+  display: none;
+}
+.reply .reasoning > summary::before {
+  content: "› ";
+  display: inline-block;
+}
+.reply .reasoning[open] > summary::before {
+  content: "⌄ ";
+}
+.reply .reasoning > p {
+  white-space: pre-wrap;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 8px 0 0;
 }
 
 .tool {
@@ -121,6 +143,33 @@ h1 span {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 0 8px;
+}
+
+.hacking {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+.reply .text + .hacking {
+  margin-top: 12px;
+}
+.dots::after {
+  content: "";
+  animation: dots 1.2s steps(4, end) infinite;
+}
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
 }
 
 .cursor {

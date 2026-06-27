@@ -24,3 +24,4 @@ tsconfig.tsbuildinfo
 # misc
 .DS_Store
 *.log
+.workflow-data

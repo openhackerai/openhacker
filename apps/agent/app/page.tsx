@@ -15,13 +15,27 @@ export default function Home() {
     if (!value || busy) return;
     agent.reset();
     agent.send({
-      message: `Analyze the GitHub repository "${value}" for security vulnerabilities. Walk through what you check and report what you find.`,
+      message: `Analyze the GitHub repository "${value}" for security vulnerabilities. Reply with only the final report.`,
     });
   }
 
   const reply = [...agent.data.messages]
     .reverse()
     .find((m) => m.role === "assistant");
+
+  const parts = reply?.parts ?? [];
+  const lastStep = parts.reduce<number | undefined>((max, p) => {
+    const idx = "stepIndex" in p ? p.stepIndex : undefined;
+    if (typeof idx !== "number") return max;
+    return max === undefined ? idx : Math.max(max, idx);
+  }, undefined);
+
+  let result = "";
+  for (const p of parts) {
+    if (p.type !== "text") continue;
+    if (lastStep !== undefined && p.stepIndex !== lastStep) continue;
+    result += p.text;
+  }
 
   return (
     <main className="container">
@@ -45,40 +59,15 @@ export default function Home() {
         </button>
       </form>
 
-      {reply ? (
+      {reply || busy ? (
         <section className="reply">
-          {reply.parts.map((part, i) => {
-            if (part.type === "reasoning") {
-              return (
-                <p key={i} className="reasoning">
-                  {part.text}
-                </p>
-              );
-            }
-            if (part.type === "text") {
-              return (
-                <p key={i} className="text">
-                  {part.text}
-                </p>
-              );
-            }
-            if (part.type === "dynamic-tool") {
-              return (
-                <div key={i} className="tool">
-                  <span className="tool-name">{part.toolName}</span>
-                  <span className="tool-state">{part.state}</span>
-                </div>
-              );
-            }
-            return null;
-          })}
-          {agent.status === "streaming" ? (
-            <span className="cursor" aria-hidden />
+          {result ? <p className="text">{result}</p> : null}
+          {busy && !result ? (
+            <p className="hacking">
+              hacking
+              <span className="dots" aria-hidden />
+            </p>
           ) : null}
-        </section>
-      ) : busy ? (
-        <section className="reply">
-          <span className="cursor" aria-hidden />
         </section>
       ) : null}
 
