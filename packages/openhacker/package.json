@@ -11,7 +11,7 @@
     ".": "./src/index.js"
   },
   "main": "./src/index.js",
-  "types": "./src/index.ts",
+  "types": "./src/index.d.ts",
   "files": [
     "bin",
     "scripts",
@@ -20,7 +20,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc --noEmit && node --check ./bin/openhacker && node --check ./src/cli.js && node --check ./scripts/sync-template.js && node --check ./scripts/clean-template.js",
+    "build": "tsc --noEmit && node --check ./bin/openhacker && node --check ./src/index.js && node --check ./scripts/sync-template.js && node --check ./scripts/clean-template.js",
     "sync-template": "node ./scripts/sync-template.js",
     "prepack": "pnpm run sync-template",
     "postpack": "node ./scripts/clean-template.js"

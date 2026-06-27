@@ -5,9 +5,8 @@ Scaffold a self-hosted OpenHacker security agent.
 ## Create an instance
 
 ```bash
-npx openhacker my-instance
-cd my-instance
-pnpm install
+npx openhacker
+cd openhacker
 pnpm dev
 ```
 
