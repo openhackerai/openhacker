@@ -8,7 +8,7 @@
     "openhacker:build": "pnpm --filter openhacker build:release"
   },
   "dependencies": {
-    "geist": "^1.7.0",
+    "geist": "^1.7.2",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
