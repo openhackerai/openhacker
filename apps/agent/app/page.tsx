@@ -1,21 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { type SyntheticEvent, useState } from "react";
 import { useEveAgent } from "eve/react";
+
+import { validateGitHubRepository } from "@/lib/repository";
 
 export default function Home() {
   const [repo, setRepo] = useState("");
+  const [error, setError] = useState("");
   const agent = useEveAgent();
 
   const busy = agent.status === "submitted" || agent.status === "streaming";
 
-  function onSubmit(e: React.FormEvent) {
+  function onSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    const value = repo.trim();
-    if (!value || busy) return;
+    if (busy) return;
+
+    const validation = validateGitHubRepository(repo);
+    if (!validation.ok) {
+      setError(validation.error);
+      return;
+    }
+
+    setError("");
     agent.reset();
     agent.send({
-      message: `Analyze the GitHub repository "${value}" for security vulnerabilities. Reply with only the final report.`,
+      message: `Analyze the GitHub repository ${validation.repository} for security vulnerabilities. Reply with only the final report.`,
     });
   }
 
@@ -52,14 +62,14 @@ export default function Home() {
           value={repo}
           onChange={(e) => setRepo(e.target.value)}
           placeholder="owner/name or https://github.com/owner/name"
-          autoFocus
+          aria-label="GitHub repository"
         />
         <button type="submit" disabled={busy || !repo.trim()}>
           {busy ? "Analyzing…" : "Analyze"}
         </button>
       </form>
 
-      {reply || busy ? (
+      {result || busy ? (
         <section className="reply">
           {result ? <p className="text">{result}</p> : null}
           {busy && !result ? (
@@ -71,9 +81,9 @@ export default function Home() {
         </section>
       ) : null}
 
-      {agent.status === "error" ? (
+      {error || agent.status === "error" ? (
         <div className="banner">
-          {String(agent.error ?? "Something went wrong.")}
+          {error || String(agent.error ?? "Something went wrong.")}
         </div>
       ) : null}
     </main>

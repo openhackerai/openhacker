@@ -32,13 +32,16 @@ Then open the printed URL, add a GitHub repo as a target, and click **Scan now**
 
 - **One Vercel deploy.** `next.config.ts` wraps the app with `withEve`, so the dashboard
   and the eve agent (routes, tools, schedules) ship as a single project.
+- **Protected dashboard.** Deployments are intended to run behind Vercel
+  Deployment Protection. The browser calls the eve channel directly, so the
+  deployment gate is the production access boundary.
 - **Inference via Vercel AI Gateway.** On Vercel it authenticates automatically through
   `VERCEL_OIDC_TOKEN` — no model key needed. Locally, set `AI_GATEWAY_API_KEY`.
 - **Continuous scanning.** The `daily_audit` schedule becomes a Vercel Cron Job and
   re-checks every target's dependencies against [OSV](https://osv.dev), so newly
   disclosed advisories are caught without a code change.
-- **Persistence.** Add a Vercel KV / Upstash Redis integration (`KV_REST_API_URL` /
-  `KV_REST_API_TOKEN`). Without it, an in-memory store is used (non-persistent).
+- **Simple storage for now.** This starter intentionally does not configure
+  external persistence yet.
 
 See [`apps/agent/README.md`](./apps/agent/README.md) and
 [`apps/agent/.env.example`](./apps/agent/.env.example) for the full instance setup.

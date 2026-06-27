@@ -1,7 +1,7 @@
 import { eveChannel } from "eve/channels/eve";
 import { none } from "eve/channels/auth";
 
-// Public demo: anyone can call the agent from the browser. Add real auth
-// (e.g. vercelOidc/localDev or your own session check) before exposing
-// anything sensitive.
+// This app is intended to run behind Vercel Deployment Protection. The
+// deployment gate owns user access; the Eve channel accepts requests that reach
+// the protected app.
 export default eveChannel({ auth: [none()] });
