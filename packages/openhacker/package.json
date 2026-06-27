@@ -24,7 +24,7 @@
     "sync-template": "node ./scripts/sync-template.js",
     "prepack": "pnpm run sync-template",
     "postpack": "node ./scripts/clean-template.js",
-    "release": "pnpm run build && npm version patch && pnpm publish && git push && git push --tags"
+    "release": "pnpm run build && npm version patch && git commit -am 'Release v$npm_package_version' && git push && git push --tags && pnpm publish"
   },
   "engines": {
     "node": ">=20"
