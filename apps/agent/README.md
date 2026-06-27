@@ -17,8 +17,7 @@ Your self-hosted OpenHacker security agent — a Next.js dashboard with an embed
 2. Import it into Vercel (it deploys as one project — UI + agent + cron).
 3. Add a **KV / Upstash Redis** integration from the Vercel Marketplace so findings persist
    (`KV_REST_API_URL` / `KV_REST_API_TOKEN` are injected automatically).
-4. Set `OPENHACKER_ADMIN_PASSWORD` to protect the dashboard.
-5. Open the deployment URL, sign in, and add a target repository.
+4. Open the deployment URL and add a target repository.
 
 Inference runs through the Vercel AI Gateway and authenticates automatically via Vercel
 OIDC — no model API key required in production.

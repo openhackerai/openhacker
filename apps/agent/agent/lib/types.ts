@@ -42,22 +42,3 @@ export type Finding = {
   firstSeen: string;
   lastSeen: string;
 };
-
-export type Settings = {
-  /** Gateway model id used by the eve agent for deep analysis. */
-  model: string;
-  autoRemediate: boolean;
-  integrations: {
-    github: { connected: boolean };
-    hackerone: { connected: boolean; handle?: string };
-  };
-};
-
-export const DEFAULT_SETTINGS: Settings = {
-  model: "anthropic/claude-sonnet-4.6",
-  autoRemediate: false,
-  integrations: {
-    github: { connected: false },
-    hackerone: { connected: false },
-  },
-};

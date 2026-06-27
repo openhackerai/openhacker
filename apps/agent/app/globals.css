@@ -274,7 +274,3 @@ th {
   font-size: 12px;
   color: var(--muted);
 }
-.login-wrap {
-  max-width: 360px;
-  margin: 12vh auto 0;
-}

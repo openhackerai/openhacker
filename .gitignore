@@ -9,3 +9,4 @@ tsconfig.tsbuildinfo
 # eve build artifacts
 .eve
 .output
+.env*

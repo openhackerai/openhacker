@@ -38,7 +38,6 @@ Then open the printed URL, add a GitHub repo as a target, and click **Scan now**
   disclosed advisories are caught without a code change.
 - **Persistence.** Add a Vercel KV / Upstash Redis integration (`KV_REST_API_URL` /
   `KV_REST_API_TOKEN`). Without it, an in-memory store is used (non-persistent).
-- **Auth.** Set `OPENHACKER_ADMIN_PASSWORD` to gate the dashboard.
 
 See [`apps/agent/README.md`](./apps/agent/README.md) and
 [`apps/agent/.env.example`](./apps/agent/.env.example) for the full instance setup.

@@ -70,8 +70,7 @@ async function init(targetArg?: string): Promise<void> {
   console.log("  pnpm install");
   console.log("  pnpm dev                 # run locally\n");
   console.log(`${MUTED}Deploy: push to a git repo and import it into Vercel (deploys as one project).`);
-  console.log(`Add a Vercel KV / Upstash Redis integration to persist findings, and set`);
-  console.log(`OPENHACKER_ADMIN_PASSWORD to protect the dashboard. See README.md.${NC}\n`);
+  console.log(`Add a Vercel KV / Upstash Redis integration to persist findings. See README.md.${NC}\n`);
 }
 
 function usage(): void {

@@ -1,5 +1,5 @@
 import { Redis } from "@upstash/redis";
-import { DEFAULT_SETTINGS, type Finding, type Settings, type Target } from "./types";
+import type { Finding, Target } from "./types";
 
 export interface Store {
   listTargets(): Promise<Target[]>;
@@ -13,16 +13,12 @@ export interface Store {
   listFindings(targetId?: string): Promise<Finding[]>;
   replaceTargetFindings(targetId: string, findings: Finding[]): Promise<void>;
   upsertFinding(finding: Finding): Promise<void>;
-
-  getSettings(): Promise<Settings>;
-  saveSettings(settings: Settings): Promise<void>;
 }
 
 const K = {
   targets: "oh:targets",
   token: (id: string) => `oh:token:${id}`,
   findings: (id: string) => `oh:findings:${id}`,
-  settings: "oh:settings",
 };
 
 class RedisStore implements Store {
@@ -64,12 +60,6 @@ class RedisStore implements Store {
     next.push(finding);
     await this.replaceTargetFindings(finding.targetId, next);
   }
-  async getSettings(): Promise<Settings> {
-    return (await this.redis.get<Settings>(K.settings)) ?? DEFAULT_SETTINGS;
-  }
-  async saveSettings(settings: Settings): Promise<void> {
-    await this.redis.set(K.settings, settings);
-  }
 }
 
 // Process-local fallback so the app boots and is testable without a KV store.
@@ -78,7 +68,6 @@ const mem = {
   targets: new Map<string, Target>(),
   tokens: new Map<string, string>(),
   findings: new Map<string, Finding[]>(),
-  settings: null as Settings | null,
 };
 
 class MemoryStore implements Store {
@@ -113,12 +102,6 @@ class MemoryStore implements Store {
   async upsertFinding(finding: Finding): Promise<void> {
     const existing = mem.findings.get(finding.targetId) ?? [];
     mem.findings.set(finding.targetId, [...existing.filter((f) => f.id !== finding.id), finding]);
-  }
-  async getSettings(): Promise<Settings> {
-    return mem.settings ?? DEFAULT_SETTINGS;
-  }
-  async saveSettings(settings: Settings): Promise<void> {
-    mem.settings = settings;
   }
 }
 
