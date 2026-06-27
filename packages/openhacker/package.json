@@ -23,7 +23,8 @@
     "build": "tsc --noEmit && node --check ./bin/openhacker && node --check ./src/index.js && node --check ./scripts/sync-template.js && node --check ./scripts/clean-template.js",
     "sync-template": "node ./scripts/sync-template.js",
     "prepack": "pnpm run sync-template",
-    "postpack": "node ./scripts/clean-template.js"
+    "postpack": "node ./scripts/clean-template.js",
+    "release": "git diff-index --quiet HEAD -- || (echo 'Unclean working tree — commit or stash all changes first.' && exit 1) && pnpm run build && npm version patch && pnpm publish && git push && git push --tags"
   },
   "engines": {
     "node": ">=20"
