@@ -1,0 +1,22 @@
+{
+  "name": "openhacker",
+  "version": "0.0.0",
+  "description": "hacking soon",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "6.0.2"
+  }
+}

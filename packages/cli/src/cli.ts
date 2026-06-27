@@ -1,1 +1,3 @@
-console.log("Openhacker - hacking soon");
+import { MESSAGE } from "openhacker";
+
+console.log(MESSAGE);

@@ -33,7 +33,17 @@ importers:
         specifier: 6.0.2
         version: 6.0.2
 
-  packages/cli: {}
+  packages/cli:
+    dependencies:
+      openhacker:
+        specifier: workspace:*
+        version: link:../openhacker
+
+  packages/openhacker:
+    devDependencies:
+      typescript:
+        specifier: 6.0.2
+        version: 6.0.2
 
 packages:
 

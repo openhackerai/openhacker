@@ -1,3 +1,4 @@
+# cspell:words mktemp softprops
 name: OpenHacker Release
 
 on:
