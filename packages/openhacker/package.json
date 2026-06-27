@@ -1,6 +1,6 @@
 {
   "name": "openhacker",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Scaffold a self-hosted OpenHacker security agent",
   "license": "UNLICENSED",
   "type": "module",
@@ -24,7 +24,7 @@
     "sync-template": "node ./scripts/sync-template.js",
     "prepack": "pnpm run sync-template",
     "postpack": "node ./scripts/clean-template.js",
-    "release": "git diff-index --quiet HEAD -- || (echo 'Unclean working tree — commit or stash all changes first.' && exit 1) && pnpm run build && npm version patch && pnpm publish && git push && git push --tags"
+    "release": "pnpm run build && npm version patch && pnpm publish && git push && git push --tags"
   },
   "engines": {
     "node": ">=20"
