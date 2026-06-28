@@ -1,6 +1,6 @@
-# OpenHacker instance
+# openhacker instance
 
-Your self-hosted OpenHacker security agent — a Next.js dashboard with an embedded
+Your self-hosted openhacker security agent — a Next.js dashboard with an embedded
 [eve](https://eve.dev) agent, deployable to Vercel as a single project.
 
 ## What it does

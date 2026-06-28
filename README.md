@@ -1,17 +1,14 @@
-# Openhacker
+# openhacker
 
-OpenHacker is a self-hosted autonomous application-security agent. You scaffold an
-instance, deploy it to Vercel, then manage everything from its dashboard: connect
-repositories, pick a model, and let it continuously scan for vulnerabilities and open
-remediation PRs.
+openHacker is a self-hosted autonomous security agent built using [eve](https://eve.dev). You scaffold an instance, deploy it to Vercel, then manage everything from its dashboard: connect repositories, pick a model, and let it continuously scan for vulnerabilities and open remediation PRs.
 
 ## Packages
 
-| Package | Description |
-| --- | --- |
-| [`apps/agent`](./apps/agent) | The deployable instance: Next.js dashboard + embedded [eve](https://eve.dev) agent. This is the template `openhacker init` emits. |
-| [`apps/web`](./apps/web) | Marketing site (openhacker.ai) |
-| [`packages/openhacker`](./packages/openhacker) | npm package: the `openhacker` (`npx openhacker`) scaffolder |
+| Package                                        | Description                                                                                                                       |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| [`apps/agent`](./apps/agent)                   | The deployable instance: Next.js dashboard + embedded [eve](https://eve.dev) agent. This is the template `openhacker init` emits. |
+| [`apps/web`](./apps/web)                       | openhacker.ai site (openhacker.ai)                                                                                                |
+| [`packages/openhacker`](./packages/openhacker) | npm package: the `openhacker` (`npx openhacker`) scaffolder                                                                       |
 
 ## Create and run an instance
 

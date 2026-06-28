@@ -6,7 +6,9 @@ const FROM = "coming";
 const TO = "hacking";
 
 const frames = [
-  ...Array.from({ length: FROM.length }, (_, i) => FROM.slice(0, FROM.length - 1 - i)),
+  ...Array.from({ length: FROM.length }, (_, i) =>
+    FROM.slice(0, FROM.length - 1 - i),
+  ),
   ...Array.from({ length: TO.length }, (_, i) => TO.slice(0, i + 1)),
 ];
 
@@ -26,7 +28,7 @@ export default function Page() {
 
   return (
     <main className="container">
-      <h1 className="title">Openhacker</h1>
+      <h1 className="title">openhacker</h1>
       <p className="subtitle">
         &gt; <span className="typed">{text}</span> soon
       </p>

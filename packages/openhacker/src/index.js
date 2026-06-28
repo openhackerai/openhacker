@@ -169,7 +169,7 @@ async function initGitRepo(dest) {
   const initialized =
     runStep("git", ["init"], dest, { quiet: true }) &&
     runStep("git", ["add", "-A"], dest, { quiet: true }) &&
-    runStep("git", ["commit", "-m", "Initial commit from OpenHacker"], dest, {
+    runStep("git", ["commit", "-m", "Initial commit from openhacker"], dest, {
       quiet: true,
     });
 
@@ -201,7 +201,7 @@ async function init(targetArg, { skipInstall = false, skipGit = false } = {}) {
     process.exit(1);
   }
 
-  console.log(`\n${MUTED}Creating OpenHacker instance in ${NC}${dest}`);
+  console.log(`\n${MUTED}Creating openhacker instance in ${NC}${dest}`);
   await cp(template, dest, {
     recursive: true,
     filter: (src) => shouldCopyTemplatePath(src, template),
@@ -223,13 +223,15 @@ async function init(targetArg, { skipInstall = false, skipGit = false } = {}) {
     await initGitRepo(dest);
   }
 
-  console.log(`\n${ORANGE}✓${NC} OpenHacker instance ready.\n`);
+  console.log(`\n${ORANGE}✓${NC} openhacker instance ready.\n`);
   console.log("Next steps:\n");
   console.log(`  cd ${path.relative(process.cwd(), dest) || "."}`);
   if (skipInstall || !installed) {
     console.log("  pnpm install");
   }
-  console.log("  pnpm dlx vercel link    # link a Vercel project for AI/LLM access");
+  console.log(
+    "  pnpm dlx vercel link    # link a Vercel project for AI/LLM access",
+  );
   console.log("  pnpm dev                 # run locally\n");
   console.log(
     `${MUTED}Deploy: push to a git repo and import it into Vercel (deploys as one project).`,
@@ -238,10 +240,10 @@ async function init(targetArg, { skipInstall = false, skipGit = false } = {}) {
 }
 
 function usage() {
-  console.log("OpenHacker\n");
+  console.log("openhacker\n");
   console.log("Usage:");
   console.log(
-    "  openhacker [dir]        Scaffold a deployable OpenHacker instance",
+    "  openhacker [dir]        Scaffold a deployable openhacker instance",
   );
   console.log("  openhacker init [dir]   Same as above");
   console.log("  openhacker --help       Show help");

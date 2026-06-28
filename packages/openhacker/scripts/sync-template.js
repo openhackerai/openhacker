@@ -16,7 +16,10 @@ const EXCLUDE = new Set([
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(here, "..");
-const source = path.resolve(process.env.OPENHACKER_TEMPLATE_DIR ?? path.join(packageRoot, "../../apps/agent"));
+const source = path.resolve(
+  process.env.OPENHACKER_TEMPLATE_DIR ??
+    path.join(packageRoot, "../../apps/agent"),
+);
 const dest = path.join(packageRoot, "templates/agent");
 
 async function exists(p) {
@@ -40,7 +43,7 @@ function shouldCopyTemplatePath(src) {
 }
 
 if (!(await exists(path.join(source, "agent", "agent.ts")))) {
-  throw new Error(`Could not find the OpenHacker app template at ${source}`);
+  throw new Error(`Could not find the openhacker app template at ${source}`);
 }
 
 await rm(dest, { recursive: true, force: true });
@@ -50,4 +53,4 @@ await cp(source, dest, {
   filter: shouldCopyTemplatePath,
 });
 
-console.log(`Synced OpenHacker template from ${source}`);
+console.log(`Synced openhacker template from ${source}`);

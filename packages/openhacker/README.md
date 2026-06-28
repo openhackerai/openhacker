@@ -1,6 +1,6 @@
 # openhacker
 
-Scaffold a self-hosted OpenHacker security agent.
+Scaffold a self-hosted openhacker security agent.
 
 ## Create an instance
 

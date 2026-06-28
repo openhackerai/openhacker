@@ -6,10 +6,10 @@ const description = "hacking soon";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openhacker.ai"),
-  title: "Openhacker",
+  title: "openhacker",
   description,
-  openGraph: { title: "Openhacker", description, type: "website" },
-  twitter: { card: "summary_large_image", title: "Openhacker", description },
+  openGraph: { title: "openhacker", description, type: "website" },
+  twitter: { card: "summary_large_image", title: "openhacker", description },
 };
 
 export default function RootLayout({
