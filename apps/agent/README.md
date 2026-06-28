@@ -17,8 +17,7 @@ Vercel. It does not ship a customer-facing web UI.
 1. Push this directory to a Git repository.
 2. Import it into Vercel.
 3. Generate an agent token from `openhacker.ai/{team}`.
-4. Add `OPENHACKER_TOKEN` to the deployment environment. Set
-   `OPENHACKER_PLATFORM_URL` only when connecting to a non-production platform.
+4. Add `OPENHACKER_TOKEN` to the deployment environment.
 5. Enable Vercel Deployment Protection or equivalent network controls for the
    project so only the intended platform path can reach Eve routes.
 
@@ -49,11 +48,9 @@ cp .env.example .env.local   # set AI_GATEWAY_API_KEY and OPENHACKER_TOKEN
 pnpm dev
 ```
 
-For local end-to-end testing with openhacker.ai running on port 3000 and this
-agent running on port 3001, set:
+For local agent testing when this service is not running on port 3001, set:
 
 ```env
-OPENHACKER_PLATFORM_URL=http://localhost:3000
 OPENHACKER_AGENT_URL=http://localhost:3001
 ```
 

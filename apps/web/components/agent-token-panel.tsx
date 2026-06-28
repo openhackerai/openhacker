@@ -1,19 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 export function AgentTokenPanel({ team }: { readonly team: string }) {
   const [label, setLabel] = useState("Vercel agent");
   const [token, setToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const platformUrl = useMemo(() => {
-    if (typeof window === "undefined") {
-      return "https://openhacker.ai";
-    }
-
-    return window.location.origin;
-  }, []);
 
   async function onSubmit(formData: FormData) {
     setError(null);
@@ -37,12 +30,7 @@ export function AgentTokenPanel({ team }: { readonly team: string }) {
     setToken(payload.token);
   }
 
-  const envSnippet = token
-    ? [
-        `OPENHACKER_TOKEN=${token}`,
-        `OPENHACKER_PLATFORM_URL=${platformUrl}`,
-      ].join("\n")
-    : "";
+  const envSnippet = token ? `OPENHACKER_TOKEN=${token}` : "";
 
   async function copyEnvSnippet() {
     if (!envSnippet || !navigator.clipboard) {

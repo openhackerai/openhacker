@@ -1,4 +1,5 @@
 const DEFAULT_PLATFORM_URL = "https://openhacker.ai";
+const PLATFORM_URL = new URL(DEFAULT_PLATFORM_URL);
 
 export type PlatformRun = {
   readonly id: string;
@@ -131,46 +132,11 @@ function getPlatformConfig(): PlatformConfig {
     };
   }
 
-  const platformUrl = parsePlatformUrl(
-    process.env.OPENHACKER_PLATFORM_URL ?? DEFAULT_PLATFORM_URL,
-  );
-
-  if (!platformUrl.ok) {
-    return platformUrl;
-  }
-
   return {
     ok: true,
     token,
-    platformUrl: platformUrl.url,
+    platformUrl: PLATFORM_URL,
   };
-}
-
-function parsePlatformUrl(
-  value: string,
-): { readonly ok: true; readonly url: URL } | { readonly ok: false; readonly error: string } {
-  try {
-    const url = new URL(value);
-    const isLocalhost =
-      url.hostname === "localhost" ||
-      url.hostname === "127.0.0.1" ||
-      url.hostname === "::1";
-
-    if (url.protocol !== "https:" && !(isLocalhost && url.protocol === "http:")) {
-      return {
-        ok: false,
-        error:
-          "OPENHACKER_PLATFORM_URL must use https, except localhost may use http.",
-      };
-    }
-
-    return { ok: true, url };
-  } catch {
-    return {
-      ok: false,
-      error: "OPENHACKER_PLATFORM_URL must be a valid URL.",
-    };
-  }
 }
 
 async function platformFetch(

@@ -22,7 +22,6 @@ variables on the scaffolded agent project:
 
 ```env
 OPENHACKER_TOKEN=ohag_...
-OPENHACKER_PLATFORM_URL=https://openhacker.ai
 ```
 
 Deploy the project to Vercel. The agent polls openhacker.ai for queued scans,

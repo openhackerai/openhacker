@@ -235,10 +235,9 @@ async function init(targetArg, { skipInstall = false, skipGit = false } = {}) {
   console.log("  pnpm eve:info            # verify the headless Eve agent\n");
   console.log("  pnpm dev                 # optional local agent service\n");
   console.log(
-    "\nGenerate an agent token in openhacker.ai, then set these Vercel env vars:",
+    "\nGenerate an agent token in openhacker.ai, then set this Vercel env var:",
   );
-  console.log("  OPENHACKER_TOKEN=ohag_...");
-  console.log("  OPENHACKER_PLATFORM_URL=https://openhacker.ai\n");
+  console.log("  OPENHACKER_TOKEN=ohag_...\n");
   console.log(
     `${MUTED}Deploy: push to a git repo and import it into Vercel. The agent polls openhacker.ai for queued scans.${NC}`,
   );
