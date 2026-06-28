@@ -6,7 +6,7 @@ Thanks for your interest in openhacker. This guide covers how to work on the mon
 
 | Package                                        | Description                                                                                                                       |
 | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| [`apps/agent`](../apps/agent)                   | The deployable instance: Next.js dashboard + embedded [eve](https://eve.dev) agent. This is the template `openhacker init` emits. |
+| [`apps/agent`](../apps/agent)                   | The headless deployable [eve](https://eve.dev) agent. This is the template `openhacker init` emits.                            |
 | [`apps/web`](../apps/web)                       | openhacker.ai site (openhacker.ai)                                                                                                |
 | [`packages/openhacker`](../packages/openhacker) | npm package: the `openhacker` (`npx openhacker`) scaffolder                                                                       |
 
@@ -20,7 +20,7 @@ pnpm install
 
 ```bash
 pnpm dev          # marketing site (apps/web)
-pnpm agent:dev    # the instance (apps/agent): dashboard + eve agent
+pnpm agent:dev    # the headless Eve agent service
 pnpm agent:info   # inspect eve discovery (tools, schedules)
 ```
 

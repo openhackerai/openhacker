@@ -66,6 +66,27 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Run not found." }, { status: 404 });
   }
 
+  if (runRecord.run.claimedByTokenId !== token.id) {
+    return NextResponse.json(
+      { error: "This run was not claimed by the current agent token." },
+      { status: 403 },
+    );
+  }
+
+  if (runRecord.run.status === "completed") {
+    return NextResponse.json(
+      { error: "This run has already been completed." },
+      { status: 409 },
+    );
+  }
+
+  if (runRecord.run.status !== "running") {
+    return NextResponse.json(
+      { error: "Only running scans can receive results." },
+      { status: 409 },
+    );
+  }
+
   const findings = normalizeFindings(body?.findings);
   const counts = countSeverities(findings);
   const reportId = randomUUID();
@@ -125,7 +146,13 @@ export async function POST(request: Request, context: RouteContext) {
       errorMessage: null,
       eveSessionId: normalizeString(body?.eveSessionId) || null,
     })
-    .where(eq(scanRun.id, runRecord.run.id));
+    .where(
+      and(
+        eq(scanRun.id, runRecord.run.id),
+        eq(scanRun.status, "running"),
+        eq(scanRun.claimedByTokenId, token.id),
+      ),
+    );
 
   return NextResponse.json({
     report: createdReport,

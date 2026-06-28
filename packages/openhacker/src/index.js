@@ -232,11 +232,17 @@ async function init(targetArg, { skipInstall = false, skipGit = false } = {}) {
   console.log(
     "  pnpm dlx vercel link    # link a Vercel project for AI/LLM access",
   );
-  console.log("  pnpm dev                 # run locally\n");
+  console.log("  pnpm eve:info            # verify the headless Eve agent\n");
+  console.log("  pnpm dev                 # optional local agent service\n");
   console.log(
-    `${MUTED}Deploy: push to a git repo and import it into Vercel (deploys as one project).`,
+    "\nGenerate an agent token in openhacker.ai, then set these Vercel env vars:",
   );
-  console.log(`${MUTED}See README.md for local model configuration.${NC}\n`);
+  console.log("  OPENHACKER_TOKEN=ohag_...");
+  console.log("  OPENHACKER_PLATFORM_URL=https://openhacker.ai\n");
+  console.log(
+    `${MUTED}Deploy: push to a git repo and import it into Vercel. The agent polls openhacker.ai for queued scans.${NC}`,
+  );
+  console.log(`${MUTED}See README.md for deployment and local model configuration.${NC}\n`);
 }
 
 function usage() {

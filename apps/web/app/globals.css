@@ -474,6 +474,17 @@ input {
   padding: 18px;
 }
 
+.env-snippet {
+  overflow-x: auto;
+  border: 1px solid #343127;
+  border-radius: 16px;
+  background: #090909;
+  color: #f5f2e8;
+  margin: 0;
+  padding: 14px;
+  white-space: pre-wrap;
+}
+
 .resource-list,
 .report-list,
 .run-list,

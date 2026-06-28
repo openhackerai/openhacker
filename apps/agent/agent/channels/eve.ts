@@ -1,7 +1,6 @@
 import { eveChannel } from "eve/channels/eve";
-import { none } from "eve/channels/auth";
+import { localDev, vercelOidc } from "eve/channels/auth";
 
-// This app is intended to run behind Vercel Deployment Protection. The
-// deployment gate owns user access; the Eve channel accepts requests that reach
-// the protected app.
-export default eveChannel({ auth: [none()] });
+// The headless platform worker self-invokes Eve from the same Vercel project.
+// Local development remains open on loopback hosts only.
+export default eveChannel({ auth: [vercelOidc(), localDev()] });

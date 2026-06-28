@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 export function AgentTokenPanel({ team }: { readonly team: string }) {
-  const [label, setLabel] = useState("Local agent");
+  const [label, setLabel] = useState("Vercel agent");
   const [token, setToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -37,12 +37,19 @@ export function AgentTokenPanel({ team }: { readonly team: string }) {
     setToken(payload.token);
   }
 
-  async function copyToken() {
-    if (!token || !navigator.clipboard) {
+  const envSnippet = token
+    ? [
+        `OPENHACKER_TOKEN=${token}`,
+        `OPENHACKER_PLATFORM_URL=${platformUrl}`,
+      ].join("\n")
+    : "";
+
+  async function copyEnvSnippet() {
+    if (!envSnippet || !navigator.clipboard) {
       return;
     }
 
-    await navigator.clipboard.writeText(token);
+    await navigator.clipboard.writeText(envSnippet);
   }
 
   return (
@@ -65,13 +72,15 @@ export function AgentTokenPanel({ team }: { readonly team: string }) {
         <div className="token-reveal">
           <p className="eyebrow">Shown once</p>
           <input aria-label="Agent token" readOnly value={token} />
-          <button className="button" onClick={copyToken} type="button">
-            Copy token
+          <pre className="env-snippet">{envSnippet}</pre>
+          <button className="button" onClick={copyEnvSnippet} type="button">
+            Copy Vercel env vars
           </button>
           <p className="muted">
-            In your local agent, connect to <strong>{platformUrl}</strong> with
-            this token. The agent will poll for pending runs and publish results
-            back to this team.
+            Add these environment variables to the Vercel project created by{" "}
+            <strong>npx openhacker</strong>. The deployed headless agent will
+            poll this platform for queued scans and publish results back to this
+            team.
           </p>
         </div>
       ) : null}
