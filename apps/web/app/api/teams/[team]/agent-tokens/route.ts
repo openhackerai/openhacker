@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { and, eq, isNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { createAgentTokenSecret } from "../../../../../lib/agent-auth";
+import { normalizeAgentChannelUrl } from "../../../../../lib/agent-channel-url";
 import { agentToken } from "../../../../../lib/db/app-schema";
 import { db } from "../../../../../lib/db";
 import { getTeamRouteContext } from "../../../../../lib/team";
@@ -75,45 +76,4 @@ export async function POST(request: Request, context: RouteContext) {
     },
     { status: 201 },
   );
-}
-
-function normalizeAgentChannelUrl(value: unknown) {
-  if (typeof value !== "string" || !value.trim()) {
-    return { ok: false as const, error: "Enter the deployed agent channel URL." };
-  }
-
-  try {
-    const url = new URL(value.trim());
-
-    if (url.username || url.password || url.search || url.hash) {
-      return {
-        ok: false as const,
-        error: "Agent channel URL cannot include credentials, query, or hash.",
-      };
-    }
-
-    if (url.protocol !== "https:" && process.env.NODE_ENV === "production") {
-      return {
-        ok: false as const,
-        error: "Agent channel URL must use HTTPS in production.",
-      };
-    }
-
-    if (url.protocol !== "https:" && url.protocol !== "http:") {
-      return { ok: false as const, error: "Agent channel URL must be HTTP or HTTPS." };
-    }
-
-    url.pathname = url.pathname.replace(/\/+$/, "") || "/";
-
-    if (url.pathname !== "/channels/openhacker") {
-      return {
-        ok: false as const,
-        error: "Agent channel URL must end with /channels/openhacker.",
-      };
-    }
-
-    return { ok: true as const, url: url.toString().replace(/\/$/, "") };
-  } catch {
-    return { ok: false as const, error: "Enter a valid agent channel URL." };
-  }
 }

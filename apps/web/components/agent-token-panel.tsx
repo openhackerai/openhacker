@@ -49,7 +49,10 @@ export function AgentTokenPanel({
       <p className="muted">
         {hasAgent
           ? "This team already has an agent registration. Updating it replaces the channel URL."
-          : "Register the deployed OpenHacker channel for this team."}
+          : "Register the deployed OpenHacker channel for this team."}{" "}
+        If your agent uses Vercel Deployment Protection, paste the protection-bypass
+        URL from Vercel. OpenHacker will append <code>/channels/openhacker</code> when
+        needed.
       </p>
       <form action={onSubmit} className="token-form">
         <label>
@@ -57,7 +60,7 @@ export function AgentTokenPanel({
           <input
             name="agentChannelUrl"
             onChange={(event) => setChannelUrl(event.target.value)}
-            placeholder="https://your-agent.vercel.app/channels/openhacker"
+            placeholder="https://your-agent.vercel.app/channels/openhacker?x-vercel-protection-bypass=..."
             value={channelUrl}
           />
         </label>
