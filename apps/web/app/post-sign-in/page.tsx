@@ -14,9 +14,18 @@ export default async function PostSignInPage() {
     headers: requestHeaders,
   });
 
+  const activeOrganizationId = session.session.activeOrganizationId;
   const activeOrganization = organizations.find(
-    (organization) => organization.id === session.session.activeOrganizationId,
+    (organization) => organization.id === activeOrganizationId,
   );
+
+  if (activeOrganizationId && !activeOrganization) {
+    await auth.api.setActiveOrganization({
+      headers: requestHeaders,
+      body: { organizationId: null },
+    });
+  }
+
   const organization = activeOrganization ?? organizations[0];
 
   if (organization?.slug) {

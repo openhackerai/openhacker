@@ -72,8 +72,6 @@ export function CreateTeamForm() {
       return;
     }
 
-    await authClient.organization.setActive({ organizationSlug: teamSlug });
-
     router.push(`/${teamSlug}`);
     router.refresh();
   }

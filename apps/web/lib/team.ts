@@ -1,8 +1,46 @@
+import { cache } from "react";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "./auth";
 
-export async function getTeamPageContext(team: string) {
+function isOrganizationAccessError(error: unknown) {
+  if (
+    typeof error !== "object" ||
+    error === null ||
+    !("body" in error) ||
+    typeof error.body !== "object" ||
+    error.body === null ||
+    !("code" in error.body)
+  ) {
+    return false;
+  }
+
+  const code = error.body.code;
+  return (
+    code === "ORGANIZATION_NOT_FOUND" ||
+    code === "USER_IS_NOT_A_MEMBER_OF_THE_ORGANIZATION"
+  );
+}
+
+async function loadOrganization(team: string, requestHeaders: Headers) {
+  try {
+    return await auth.api.getFullOrganization({
+      headers: requestHeaders,
+      query: {
+        organizationSlug: team,
+        membersLimit: 100,
+      },
+    });
+  } catch (error) {
+    if (isOrganizationAccessError(error)) {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
+export const getTeamPageContext = cache(async (team: string) => {
   const requestHeaders = await headers();
   const session = await auth.api.getSession({ headers: requestHeaders });
 
@@ -10,16 +48,10 @@ export async function getTeamPageContext(team: string) {
     redirect(`/sign-in?next=/${team}`);
   }
 
-  const organization = await auth.api.getFullOrganization({
-    headers: requestHeaders,
-    query: {
-      organizationSlug: team,
-      membersLimit: 100,
-    },
-  });
+  const organization = await loadOrganization(team, requestHeaders);
 
   if (!organization) {
-    notFound();
+    redirect("/post-sign-in");
   }
 
   const membership = organization.members.find(
@@ -31,7 +63,7 @@ export async function getTeamPageContext(team: string) {
   }
 
   return { session, organization, membership };
-}
+});
 
 export async function getTeamRouteContext(team: string, requestHeaders: Headers) {
   const session = await auth.api.getSession({ headers: requestHeaders });
@@ -40,13 +72,7 @@ export async function getTeamRouteContext(team: string, requestHeaders: Headers)
     return null;
   }
 
-  const organization = await auth.api.getFullOrganization({
-    headers: requestHeaders,
-    query: {
-      organizationSlug: team,
-      membersLimit: 100,
-    },
-  });
+  const organization = await loadOrganization(team, requestHeaders);
 
   if (!organization) {
     return null;
