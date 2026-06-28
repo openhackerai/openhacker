@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { CreateTeamForm } from "../../components/create-team-form";
@@ -16,6 +15,10 @@ export default async function NewTeamPage() {
     headers: requestHeaders,
   });
 
+  if (organizations[0]?.slug) {
+    redirect(`/${organizations[0].slug}`);
+  }
+
   return (
     <main className="page auth-page">
       <section className="panel auth-panel">
@@ -26,18 +29,6 @@ export default async function NewTeamPage() {
           openhacker.ai/team.
         </p>
         <CreateTeamForm />
-        {organizations.length > 0 ? (
-          <div className="existing-teams">
-            <p className="muted">You already belong to:</p>
-            <div className="team-links">
-              {organizations.map((organization) => (
-                <Link href={`/${organization.slug}`} key={organization.id}>
-                  {organization.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        ) : null}
       </section>
     </main>
   );

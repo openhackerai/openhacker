@@ -9,6 +9,7 @@ export async function proxy(request: NextRequest) {
   if (
     PUBLIC_PATHS.has(pathname) ||
     pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/agent") ||
     pathname.startsWith("/_next") ||
     pathname.includes(".")
   ) {

@@ -1,7 +1,10 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { getEnv } from "../env";
-import * as schema from "./auth-schema";
+import * as appSchema from "./app-schema";
+import * as authSchema from "./auth-schema";
+
+const schema = { ...authSchema, ...appSchema };
 
 const databaseUrl = getEnv("DATABASE_URL");
 
