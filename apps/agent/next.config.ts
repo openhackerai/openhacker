@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Mounts the eve agent (agent/) and the dashboard as a single Vercel deployment.
+// Mounts the Eve agent in agent/ as a Vercel deployment.
 // Schedules under agent/schedules become Vercel Cron Jobs automatically.
 export default withEve(nextConfig);
 

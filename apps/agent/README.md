@@ -1,41 +1,38 @@
 # openhacker instance
 
-Your self-hosted openhacker security agent — a Next.js dashboard with an embedded
-[eve](https://eve.dev) agent, deployable to Vercel as a single project.
+Your self-hosted OpenHacker security agent. This is a headless
+[eve](https://eve.dev) app wrapped by Next.js only so it can be deployed on
+Vercel. It does not ship a customer-facing web UI.
 
 ## What it does
 
-- Continuously scans the repositories you connect for vulnerable dependencies (via OSV).
-- Records findings with computed CVSS severity and fix versions.
-- A daily schedule (Vercel Cron) re-scans every target so newly disclosed advisories are
-  caught even when your code hasn't changed.
-- The eve agent layers code-level analysis (reachability, injection, authz) on top.
+- Runs the OpenHacker Eve agent inside the customer's deployment boundary.
+- Uses the repository and scan instructions sent by the OpenHacker platform.
+- Authenticates platform communication with `OPENHACKER_TOKEN`.
 
 ## Deploy to Vercel
 
 1. Push this directory to a Git repository.
-2. Import it into Vercel (it deploys as one project — UI + agent + cron).
-3. Enable Vercel Deployment Protection for the project so only approved users
-   can reach the dashboard and eve routes.
-4. Open the deployment URL and add a target repository.
+2. Import it into Vercel.
+3. Generate an agent token from `openhacker.ai/{team}`.
+4. Add `OPENHACKER_TOKEN` to the deployment environment. Set
+   `OPENHACKER_PLATFORM_URL` only when connecting to a non-production platform.
+5. Enable Vercel Deployment Protection or equivalent network controls for the
+   project so only the intended platform path can reach Eve routes.
 
 Inference runs through the Vercel AI Gateway and authenticates automatically via Vercel
 OIDC — no model API key required in production.
 
-The main screen calls the eve channel directly. This is safe only when the
-deployment is protected by Vercel Deployment Protection; without that gate,
-`/eve/v1/*` is a public compute endpoint. The UI validates GitHub repository
-names before it sends the agent message.
-
-This starter intentionally does not configure external persistence yet.
+This package intentionally does not include a dashboard, forms, or local report
+storage. Reports and findings belong in the OpenHacker platform.
 
 ## Local development
 
 ```bash
 pnpm install
-cp .env.example .env.local   # set AI_GATEWAY_API_KEY for local agent runs
+cp .env.example .env.local   # set AI_GATEWAY_API_KEY and OPENHACKER_TOKEN
 pnpm dev
 ```
 
-`pnpm dev` runs the Next.js dashboard and the eve agent together. Open the printed URL,
-add a target, and click **Scan now**.
+`pnpm dev` runs the Eve-enabled Next.js service locally. There is no local web
+dashboard; use `pnpm eve:info` to inspect the discovered agent configuration.
